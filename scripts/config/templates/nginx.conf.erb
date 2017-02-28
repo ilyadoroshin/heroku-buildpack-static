@@ -85,6 +85,12 @@ http {
       return <%= hash['status'] || 301 %> <%= hash['url'] %>;
     }
   <% end %>
+  # fallback redirects named match
+  <% redirects.each do |path, hash| %>
+    location @<%= path %> {
+      return <%= hash['status'] || 301 %> <%= hash['url'] %>;
+    }
+  <% end %>
 
     location = /play {
       mruby_post_read_handler /app/bin/config/lib/ngx_mruby/headers.rb cache;
